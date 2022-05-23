@@ -11,11 +11,8 @@ class ChatItem {
 
   const ChatItem({required this.name, required this.comment, this.updated});
 
-  ChatItem.newItem({required this.name, required this.comment})
-      : updated = DateTime.now();
-
-  ChatItem withUpdated(ChatItem item) =>
-      ChatItem.newItem(name: item.name, comment: item.comment);
+  ChatItem withUpdated({required DateTime updated}) =>
+      ChatItem(name: name, comment: comment, updated: updated);
 
   Map<String, dynamic> toJson() => _$ChatItemToJson(this);
 

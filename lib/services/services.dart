@@ -19,7 +19,7 @@ class Services {
 
   /// Add chat item and publish to the pubsub channel.
   Future<void> addChatItem(ChatItem chatItem, {isPublish = false}) async {
-    await dao.addChatItem(chatItem.withUpdated(chatItem));
+    await dao.addChatItem(chatItem.withUpdated(updated: DateTime.now()));
     if (isPublish) {
       final message = PubsubMessage(
           type: PubsubMessageType.chatUpdated, data: chatItem.toJson());
