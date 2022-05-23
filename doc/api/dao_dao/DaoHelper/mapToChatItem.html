@@ -60,15 +60,19 @@
 
     </section>
     
+<section class="desc markdown">
+  <p>Covert Map&lt;String, String&gt; to <a href="../../models_models/ChatItem-class.html">ChatItem</a>.</p>
+</section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static ChatItem mapToChatItem(Map&lt;String, String&gt; map) =&gt; ChatItem(
-    name: map[&quot;name&quot;]!,
-    comment: map[&quot;comment&quot;]!,
-    updated: DateTime.parse(map[&quot;updated&quot;]!));</code></pre>
+  <pre class="language-dart"><code class="language-dart">static ChatItem mapToChatItem(Map&lt;String, String&gt; map) {
+  final Map&lt;String, dynamic&gt; item = Map.from(map);
+  item[&#39;updated&#39;] = DateTime.parse(item[&#39;updated&#39;]);
+  return ChatItem.fromJson(item);
+}</code></pre>
 </section>
 
 

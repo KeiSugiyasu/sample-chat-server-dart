@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'models.g.dart';
 
+/// Chat item model.
 @JsonSerializable()
 class ChatItem {
   final String name;

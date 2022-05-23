@@ -60,16 +60,19 @@
 
     </section>
     
+<section class="desc markdown">
+  <p>Convert <a href="../../models_models/ChatItem-class.html">ChatItem</a> to Map&lt;String, String&gt;</p>
+</section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static Map&lt;String, String&gt; chatItemtoMap(ChatItem chatItem) =&gt; {
-      &quot;name&quot;: chatItem.name,
-      &quot;comment&quot;: chatItem.comment,
-      &quot;updated&quot;: chatItem.updated.toString()
-    };</code></pre>
+  <pre class="language-dart"><code class="language-dart">static Map&lt;String, String&gt; chatItemtoMap(ChatItem chatItem) {
+  final item = chatItem.toJson();
+  item[&#39;updated&#39;] = item[&#39;updated&#39;].toString();
+  return item as Map&lt;String, String&gt;;
+}</code></pre>
 </section>
 
 

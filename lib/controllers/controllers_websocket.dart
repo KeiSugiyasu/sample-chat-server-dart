@@ -5,6 +5,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import '../dao/chat_pubsub.dart';
 import '../dao/pubsub_models.dart';
 import '../utils/logger.dart';
+import '../utils/extensions.dart';
 import 'controller_models.dart';
 
 /// Return the factory method of [WebSocketController] applying [Services] and [ChatPubsub].
@@ -47,9 +48,8 @@ class WebSocketController {
   /// If [data].from is passed, the comments after the specific point are sent, other wise all comments are sent.
   _sendChatItems(Map<String, dynamic>? data) async {
     logger.i("$data");
-    final from = data?["from"];
-    final chatItems = await _services.getChatItems(
-        from: from != null ? DateTime.parse(from) : null);
+    final from = data?["from"] as String?;
+    final chatItems = await _services.getChatItems(from: from?.toDateTime());
     _channel.sink.add(WebSocketMessage(
         type: WebSocketMessageType.comments,
         data: {'from': from, 'items': chatItems}).toTransferFormat());

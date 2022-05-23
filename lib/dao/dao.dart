@@ -1,27 +1,35 @@
 import 'package:database/database.dart';
 import 'package:database_adapter_postgre/database_adapter_postgre.dart';
-
+import '../utils/extensions.dart';
 import '../models/models.dart';
 
+/// Helper object for DAO.
 class DaoHelper {
-  static Map<String, String> chatItemtoMap(ChatItem chatItem) => {
-        "name": chatItem.name,
-        "comment": chatItem.comment,
-        "updated": chatItem.updated.toString()
-      };
+  /// Convert [ChatItem] to Map<String, String>
+  static Map<String, String> chatItemtoMap(ChatItem chatItem) {
+    final item = chatItem.toJson();
+    item['updated'] = item['updated'].toString();
+    return item as Map<String, String>;
+  }
 
-  static ChatItem mapToChatItem(Map<String, String> map) => ChatItem(
-      name: map["name"]!,
-      comment: map["comment"]!,
-      updated: DateTime.parse(map["updated"]!));
+  /// Covert Map<String, String> to [ChatItem].
+  static ChatItem mapToChatItem(Map<String, String> map) {
+    final Map<String, dynamic> item = Map.from(map);
+    item['updated'] = (item['updated'] as String).toDateTime();
+    return ChatItem.fromJson(item);
+  }
 }
 
+/// DAO abstract base class.
 abstract class Dao {
+  /// Return chat items.
   Future<List<ChatItem>> getChatItems(DateTime? from);
 
+  /// Add a chat item.
   Future<void> addChatItem(ChatItem chatItem);
 }
 
+/// Database implementation of [Dao].
 class DaoImpl implements Dao {
   final Database database;
 
@@ -73,6 +81,9 @@ class DaoImpl implements Dao {
   }
 }
 
+/// Mock implementation of [Dao].
+///
+/// It stores chat cata in memory.
 class DaoMock implements Dao {
   final chatItems = List<ChatItem>.empty(growable: true);
 

@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 /// Type of subscriber id
 typedef SubscriberId = String;
 
-/// Type of callback function
+/// Type of subscribers' callback function
 typedef void PubsubCallback(PubsubMessage data);
 
 /// Simple pubsub feature that supports only one pubsub channel.
@@ -30,17 +30,26 @@ class ChatPubsubMock implements ChatPubsub {
 
   ChatPubsubMock() : _subscribes = {};
 
+  /// Subscribe to the channel.
+  ///
+  /// [callback] is invoked when something is published to the channel.
   Future<SubscriberId> subscribe(PubsubCallback callback) {
     final id = _uuid.v4();
     _subscribes[id] = callback;
     return Future.value(id);
   }
 
+  /// Unsubscribe from the channel.
+  ///
+  /// Subscriber identified with the passed [id] is unsubscribed from the channel.
   Future<void> unsubscribe(SubscriberId id) {
     _subscribes.remove(id);
     return Future.value();
   }
 
+  /// Publish a message to the channel.
+  ///
+  /// The subscribers' callback functions are immediately invoked.
   Future<void> publish(PubsubMessage message) {
     _subscribes.forEach((_, callback) {
       callback(message);
