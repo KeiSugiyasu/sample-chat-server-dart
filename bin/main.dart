@@ -14,14 +14,19 @@ import 'package:sample_chart_app_server_dart_proj/controllers/controllers.dart';
 import 'package:sample_chart_app_server_dart_proj/dao/dao.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 
+/// DI container
 final getIt = GetIt.instance;
 
+/// Main function
 Future main() async {
   setupDI();
   setupServer();
   setupWebSocketServer();
 }
 
+/// Set up http server other than WebSocket.
+///
+/// Set the controller and the routes.
 Future<void> setupServer() async {
   final controller = Controller(services: getIt<Services>(), dao: getIt<Dao>());
   final staticHandler =
@@ -41,12 +46,14 @@ Future<void> setupServer() async {
   logger.i('Serving at http://${server.address.host}:${server.port}');
 }
 
+/// Set up WebSocket server.
+///
+/// Set the controller.
 Future<void> setupWebSocketServer() async {
   final webSocketPort =
       int.parse(Platform.environment['PORT_WEBSOCKET'] ?? '8081');
   final handlerWebSocket = webSocketHandler(
-      WebSocketController.createWebSocketHandler(
-          getIt<Services>(), getIt<ChatPubsub>()),
+      createWebSocketHandler(getIt<Services>(), getIt<ChatPubsub>()),
       pingInterval: Duration(seconds: 30));
 
   final webSocketServer = await shelf_io.serve(
@@ -56,6 +63,9 @@ Future<void> setupWebSocketServer() async {
       'Serving at ws://${webSocketServer.address.host}:${webSocketServer.port}');
 }
 
+/// Set up DI container.
+///
+/// Register implementations to the DI container registry.
 void setupDI() {
   if (Platform.environment['MOCK'] != null) {
     getIt.registerSingleton<Dao>(DaoMock());
@@ -67,6 +77,7 @@ void setupDI() {
       .registerSingleton<Services>(Services(getIt<Dao>(), getIt<ChatPubsub>()));
 }
 
+/// Create the implementation of the DAO.
 DaoImpl createDaoImpl() {
   return DaoImpl(
     host: Platform.environment['DB_HOST'] ?? 'localhost',

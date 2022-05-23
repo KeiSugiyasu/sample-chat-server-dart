@@ -6,8 +6,6 @@ This is a chat server application.
 The features are explained below.
 
 
-
-
 ## Prerequisites
 
 * dart sdk (version >= 2.17.1)
@@ -40,3 +38,8 @@ It uses the following ports by default.
 You can change to other ports by setting the following environment variables.
 * PORT_WEB
 * PORT_WEBSOCKET
+
+## Generate the documentations.
+
+Generates the documentations into doc directory.
+```dart doc```

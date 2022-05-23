@@ -1,9 +1,13 @@
-import 'dart:convert';
+/// Models used mainly by the controllers.
+///
+/// So, the models here are used for input or output for client-server communications.
 
+import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'controller_models.g.dart';
 
+/// Response format.
 @JsonSerializable()
 class ResponseBody {
   final Map<String, dynamic> data;
@@ -16,6 +20,7 @@ class ResponseBody {
   Map<String, dynamic> toJson() => _$ResponseBodyToJson(this);
 }
 
+/// WebSocket message format.
 @JsonSerializable()
 class WebSocketMessage {
   final WebSocketMessageType type;
@@ -31,6 +36,7 @@ class WebSocketMessage {
   String toTransferFormat() => jsonEncode(this);
 }
 
+/// WebSocket message types.
 enum WebSocketMessageType {
   // from client
   getComments,
