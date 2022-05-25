@@ -33,6 +33,7 @@ class ChatPubsubMock implements ChatPubsub {
   /// Subscribe to the channel.
   ///
   /// [callback] is invoked when something is published to the channel.
+  /// [callback]s are invoked sequentially in the main isolate, so those should not execute for long time.
   Future<SubscriberId> subscribe(PubsubCallback callback) {
     final id = _uuid.v4();
     _subscribes[id] = callback;

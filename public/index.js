@@ -81,7 +81,7 @@ class CallbackUsingAjax {
     }
 
     onMessage = async (event) => {
-        event.data.type === "chatUpdated" && this.updateComments();
+        event.data.type === "updated" && this.updateComments();
     }
 }
 

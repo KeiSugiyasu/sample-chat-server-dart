@@ -71,9 +71,8 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;Response&gt; listItems(Request request) async {
   final body = JsonDecoder().convert(await request.readAsString());
-  final from = body[&#39;data&#39;]?[&#39;from&#39;];
-  final chats = await services.getChatItems(
-      from: from != null ? DateTime.parse(from) : null);
+  final from = body[&#39;data&#39;]?[&#39;from&#39;] as String?;
+  final chats = await services.getChatItems(from: from?.toDateTime());
   return ResponseHelper.standardJsonResponse(
       body: ResponseBody(data: {
     &#39;from&#39;: from,

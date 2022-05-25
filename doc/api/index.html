@@ -48,15 +48,16 @@
 <p><em>I created this application just to learn dart programming, so its architecture may not be reasonable.</em></p>
 <p>This is a chat server application.
 The features are explained below.</p>
-<h2 id="prerequisites">Prerequisites</h2>
+<h2 id="get-started">Get started</h2>
+<h3 id="prerequisites">Prerequisites</h3>
 <ul>
 <li>dart sdk (version &gt;= 2.17.1)</li>
 </ul>
-<h2 id="development">Development</h2>
+<h3 id="development">Development</h3>
 <p>Get dependencies.</p>
 <pre class="language-shell"><code class="language-shell">dart pub get
 </code></pre>
-<p>Run builder to generate json serializer codes.</p>
+<p>Run builder to generate json serializer codes when you modified the models or adding one.</p>
 <pre class="language-dart"><code>dart run build_runner build
 </code></pre>
 <p>For details, check <a href="https://pub.dev/packages/json_serializable">https://pub.dev/packages/json_serializable</a>.</p>
@@ -75,6 +76,8 @@ dart --no-sound-null-safety run bin/main.dart
 <li>PORT_WEB</li>
 <li>PORT_WEBSOCKET</li>
 </ul>
+<h2 id="run-test-codes">Run test codes</h2>
+<p><code>dart test</code></p>
 <h2 id="generate-the-documentations">Generate the documentations.</h2>
 <p>Generates the documentations into doc directory.
 <code>dart doc</code></p>
@@ -114,6 +117,13 @@ dart --no-sound-null-safety run bin/main.dart
 
           <dt id="dao">
   <span class="name"><a href="dao_dao/dao_dao-library.html">dao</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="extensions">
+  <span class="name"><a href="utils_extensions/utils_extensions-library.html">extensions</a></span> 
 
 </dt>
 <dd>
@@ -172,6 +182,7 @@ dart --no-sound-null-safety run bin/main.dart
       <li><a href="controllers_controllers/controllers_controllers-library.html">controllers</a></li>
       <li><a href="controllers_controllers_websocket/controllers_controllers_websocket-library.html">controllers_websocket</a></li>
       <li><a href="dao_dao/dao_dao-library.html">dao</a></li>
+      <li><a href="utils_extensions/utils_extensions-library.html">extensions</a></li>
       <li><a href="utils_logger/utils_logger-library.html">logger</a></li>
       <li><a href="models_models/models_models-library.html">models</a></li>
       <li><a href="dao_pubsub_models/dao_pubsub_models-library.html">pubsub_models</a></li>

@@ -70,7 +70,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static ChatItem mapToChatItem(Map&lt;String, String&gt; map) {
   final Map&lt;String, dynamic&gt; item = Map.from(map);
-  item[&#39;updated&#39;] = DateTime.parse(item[&#39;updated&#39;]);
+  item[&#39;updated&#39;] = (item[&#39;updated&#39;] as String).toDateTime();
   return ChatItem.fromJson(item);
 }</code></pre>
 </section>

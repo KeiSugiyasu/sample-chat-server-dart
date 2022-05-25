@@ -5,19 +5,20 @@
 This is a chat server application.
 The features are explained below.
 
+## Get started
 
-## Prerequisites
+### Prerequisites
 
 * dart sdk (version >= 2.17.1)
 
-## Development
+### Development
 
 Get dependencies.
 ```shell
 dart pub get
 ```
 
-Run builder to generate json serializer codes.
+Run builder to generate json serializer codes when you modified the models annoted with json serializer or adding one.
 ```
 dart run build_runner build
 ```
@@ -29,15 +30,19 @@ export MOCK=1
 dart --no-sound-null-safety run bin/main.dart
 ```
 
-Open 'http://127.0.0.1:8080/' with the browser.
+For the sample web application, open 'http://127.0.0.1:8080/' with the browser.
 
-It uses the following ports by default.
-* 8080 (web server)
+The web server uses the following ports by default.
+* 8080 (web server serving static files and standard web api)
 * 8081 (websocket)
 
 You can change to other ports by setting the following environment variables.
 * PORT_WEB
 * PORT_WEBSOCKET
+
+## Run test codes
+
+```dart test```
 
 ## Generate the documentations.
 
