@@ -1,17 +1,19 @@
-# Simple chat server application written with dart.
+# About
 
-*I created this application just to learn dart programming, so its architecture may not be reasonable.*
+Simple chat server application written with Dart.
+
+*I created this application just to learn Dart programming, so its architecture may not be reasonable.*
 
 This is a chat server application.
 The features are explained below.
 
-## Get started
+# Get started
 
-### Prerequisites
+## Prerequisites
 
-* dart sdk (version >= 2.17.1)
+* Dart SDK (version >= 2.17.1)
 
-### Development
+## Development
 
 Get dependencies.
 ```shell
@@ -40,11 +42,38 @@ You can change to other ports by setting the following environment variables.
 * PORT_WEB
 * PORT_WEBSOCKET
 
-## Run test codes
+# Run test codes
 
-```dart test```
+```
+dart test
+```
 
-## Generate the documentations.
+# Generate the documentations.
 
 Generates the documentations into doc directory.
-```dart doc```
+```
+dart doc
+```
+
+
+
+# The architecture
+
+## The present architecture
+
+The present architecture is the following.
+
+[[./architecture/architecture.png|architecture.png]]
+
+The web server stores the chat data in memory, so they are lost when the web server process restarts.
+
+The pubsub function fully runs on the web server, so it works only for one web server scenario.
+
+## The future architecture
+
+The future architecture is the following.
+
+[[./architecture/architecture_future.png|architecture_future.png]]
+
+The PostgreSQL stores the chat data and the Redis provides the pubsub function, and all the system run as the Docker container.
+
