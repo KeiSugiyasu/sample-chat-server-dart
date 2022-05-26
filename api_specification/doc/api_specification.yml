@@ -8,7 +8,7 @@ servers:
   - url: http://127.0.0.1:8080
 
 paths:
-  /chat/:
+  /api/chat/:
     post:
       summary: Returns the chat comments.
       description: Returns the chat comments. When 'from' parameter is passed, returns items whose timestamps are after that time.
@@ -27,6 +27,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ChatItems'
+        '400':
+          $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
     put:
@@ -37,6 +39,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Empty'
+        '400':
+          $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
 
@@ -80,15 +84,15 @@ components:
     Error:
       description: 'Error response body'
       type: object
+      required: ["error"]
       properties:
         error:
           type: object
+          required: ["message"]
           properties:
             message:
               type: string
               required: true
-          required: ["message"]
-      required: ["error"]
 
   requestBodies:
     ChatItemNew:

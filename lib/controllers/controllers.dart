@@ -17,12 +17,16 @@ class Controller {
   ///
   /// If [request] contains 'from' parameter, the items created after 'from' time are returned.
   Future<Response> listItems(Request request) async {
-    final body = JsonDecoder().convert(await request.readAsString());
-    final from = body['data']?['from'] as String?;
-    final chats = await services.getChatItems(from: from?.toDateTime());
+    late final DateTime? from;
+    try {
+      from = (JsonDecoder().convert(await request.readAsString())['from'] as String?)?.toDateTime();
+    } on Exception {
+      return ResponseHelper.badRequestJsonResponse();
+    }
+    final chats = await services.getChatItems(from: from);
     return ResponseHelper.standardJsonResponse(
         body: ResponseBody(data: {
-      'from': from,
+      'from': from.toString(),
       'items': chats.map((record) => record.toJson()).toList()
     }).toJson());
   }
@@ -31,9 +35,13 @@ class Controller {
   ///
   /// [request] should contain parameters name and comment.
   Future<Response> addItem(Request request) async {
-    // TODO valiate request parameter
-    final body = JsonDecoder().convert(await request.readAsString());
-    await services.addChatItem(ChatItem.fromJson(body), isPublish: true);
+    late final ChatItem chatItem;
+    try {
+      chatItem = ChatItem.fromJson(JsonDecoder().convert(await request.readAsString()));
+    } on Exception {
+      return ResponseHelper.badRequestJsonResponse();
+    }
+    await services.addChatItem(chatItem, isPublish: true);
     return ResponseHelper.standardJsonResponse();
   }
 
@@ -72,5 +80,10 @@ class ResponseHelper {
         Map<String, Object>? context,
       }) responseFunction, {required ErrorResponseBody body, Map<String, String> headers = const {}}) {
     return responseFunction(JsonEncoder().convert(body.body), headers: {...commonHeaders, ...headers});
+  }
+
+  /// Response helper for 400 Bad Request.
+  static Response badRequestJsonResponse({String? details}) {
+    return Response.badRequest(body: JsonEncoder().convert(ErrorResponseBody("BadRequest", details:details).body));
   }
 }

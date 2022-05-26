@@ -16,6 +16,10 @@ class ChatItem {
 
   Map<String, dynamic> toJson() => _$ChatItemToJson(this);
 
-  static ChatItem fromJson(Map<String, dynamic> json) =>
-      _$ChatItemFromJson(json);
+  static ChatItem fromJson(Map<String, dynamic> json) {
+    if(json["name"] == null || json["comment"] == null) {
+      throw Exception("Can't convert to ChatItem");
+    }
+    return _$ChatItemFromJson(json);
+  }
 }

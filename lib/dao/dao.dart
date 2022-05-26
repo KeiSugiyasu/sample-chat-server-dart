@@ -89,10 +89,16 @@ class DaoMock implements Dao {
 
   @override
   Future<List<ChatItem>> getChatItems(DateTime? from) async {
-    return from == null
-        ? chatItems
-        : chatItems.sublist(
-            chatItems.indexWhere((data) => data.updated!.compareTo(from!) > 0));
+    if(from != null) {
+      final fromIndex = chatItems.indexWhere((data) => data.updated!.compareTo(from!) > 0);
+      if(fromIndex >= 0) {
+        return chatItems.sublist(fromIndex);
+      } else {
+        return chatItems;
+      }
+    } else {
+      return chatItems;
+    }
   }
 
   @override

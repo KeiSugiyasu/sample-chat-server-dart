@@ -50,12 +50,7 @@ class CallbackUsingAjax {
         const response = await fetch(`/api/chat/`, {
             method: 'POST',
             cache: 'no-cache',
-            body: JSON.stringify({
-                type: 'getComments',
-                data: {
-                    from
-                }
-            })
+            body: JSON.stringify({from})
         })
         return response.json()
     }

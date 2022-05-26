@@ -23,14 +23,16 @@ class ResponseBody {
 /// Error response format.
 class ErrorResponseBody {
   final String message;
+  final String? details;
 
-  ErrorResponseBody(this.message);
+  ErrorResponseBody(this.message, {this.details});
 
   get body {
+    final error = {'message': message};
+    final errorDetails = details != null ? {'details': details} : {};
+
     return {
-      'error': {
-        'message': message
-      }
+      'error': {...error, ...errorDetails}
     };
   }
 }
