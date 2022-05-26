@@ -70,10 +70,10 @@ Accepts **one of** the following messages:
 | Name | Type | Description | Value | Constraints | Notes |
 |---|---|---|---|---|---|
 | (root) | object | - | - | - | **additional properties are allowed** |
-| type | string | message type. | - | - | - |
-| data | object | message contents | - | - | **additional properties are allowed** |
-| data.name | string | user name | - | - | - |
-| data.comment | string | comment | - | - | - |
+| type | string | message type. | - | - | **required** |
+| data | object | message contents | - | - | **required**, **additional properties are allowed** |
+| data.name | string | user name | - | - | **required** |
+| data.comment | string | comment | - | - | **required** |
 
 > Examples of payload _(generated)_
 
@@ -106,8 +106,8 @@ Accepts **one of** the following messages:
 | Name | Type | Description | Value | Constraints | Notes |
 |---|---|---|---|---|---|
 | (root) | object | - | - | - | **additional properties are allowed** |
-| type | string | message type. | - | - | - |
-| data | object | message contents | - | - | **additional properties are allowed** |
+| type | string | message type. | - | - | **required** |
+| data | object | message contents | - | - | **required**, **additional properties are allowed** |
 
 > Examples of payload _(generated)_
 
@@ -126,22 +126,29 @@ Accepts **one of** the following messages:
 | Name | Type | Description | Value | Constraints | Notes |
 |---|---|---|---|---|---|
 | (root) | object | - | - | - | **additional properties are allowed** |
-| type | string | message type. | - | - | - |
-| data | array<object> | message contents | - | - | - |
-| data.name | string | user name | - | - | - |
-| data.comment | string | comment | - | - | - |
+| type | string | message type. | - | - | **required** |
+| data | object | message contents | - | - | **required**, **additional properties are allowed** |
+| data.from | string | - | - | format (`date-time`) | **required** |
+| data.items | array<object> | message contents | - | - | **required** |
+| data.items.name | string | user name | - | - | **required** |
+| data.items.comment | string | comment | - | - | **required** |
+| data.items.updated | string | - | - | format (`date-time`) | **required** |
 
 > Examples of payload _(generated)_
 
 ```json
 {
   "type": "comments",
-  "data": [
-    {
-      "name": "Anonymous",
-      "comment": "Hellow world!"
-    }
-  ]
+  "data": {
+    "from": "2022-05-24T17:09:03.888Z",
+    "items": [
+      {
+        "name": "Anonymous",
+        "comment": "Hellow world!",
+        "updated": "2022-05-24T17:09:03.888Z"
+      }
+    ]
+  }
 }
 ```
 

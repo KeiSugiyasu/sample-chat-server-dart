@@ -34,6 +34,8 @@ channels:
                   example: "getComments"
                 data:
                   type: object
+                  required:
+                    - type
                   description: message contents
                   properties:
                     from:
@@ -44,6 +46,9 @@ channels:
           - name: addComment
             payload:
               type: object
+              required:
+                - type
+                - data
               properties:
                 type:
                   type: string
@@ -51,6 +56,9 @@ channels:
                   example: addComment
                 data:
                   type: object
+                  required:
+                    - name
+                    - comment
                   description: message contents
                   properties:
                     name:
@@ -71,6 +79,9 @@ channels:
           - name: updated
             payload:
               type: object
+              required:
+                - type
+                - data
               properties:
                 type:
                   type: string
@@ -82,22 +93,47 @@ channels:
           - name: comments
             payload:
               type: object
+              required:
+                - type
+                - data
               properties:
                 type:
                   type: string
                   description: message type.
                   example: comments
                 data:
-                  type: array
+                  type: object
+                  required:
+                    - from
+                    - items
                   description: message contents
-                  items:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                        description: user name
-                        example: Anonymous
-                      comment:
-                        type: string
-                        description: comment
-                        example: Hellow world!
+                  properties:
+                    from:
+                      type: string
+                      format: date-time
+                      desctiption: items are comments created after this time.
+                      example: 2022-05-24T17:09:03.888254
+                    items:
+                      type: array
+                      description: message contents
+                      items:
+                        type: object
+                        required:
+                          - name
+                          - comment
+                          - updated
+                        properties:
+                          name:
+                            type: string
+                            description: user name
+                            example: Anonymous
+                          comment:
+                            type: string
+                            description: comment
+                            example: Hellow world!
+                          updated:
+                            type: string
+                            format: date-time
+                            desctiption: created time.
+                            example: 2022-05-24T17:09:03.888254
+

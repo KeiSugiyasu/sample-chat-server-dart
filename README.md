@@ -33,6 +33,7 @@ dart --no-sound-null-safety run bin/main.dart
 ```
 
 For the sample web application, open 'http://127.0.0.1:8080/' with the browser.
+See [this section](#sample-web-application) for the details of it.
 
 The web server uses the following ports by default.
 * 8080 (web server serving static files and standard web api)
@@ -41,6 +42,14 @@ The web server uses the following ports by default.
 You can change to other ports by setting the following environment variables.
 * PORT_WEB
 * PORT_WEBSOCKET
+
+
+# Functions
+
+The server application serves two types of API, REST and WebSocket. The two apis serve essentially the same functionalities. 
+
+You can use one of those apis.
+
 
 # API specification
 
@@ -111,3 +120,8 @@ The PostgreSQL stores the chat data and the Redis provides the pubsub function, 
 | lib  | Application codes  |
 | public  | Static files for the web application  |
 | test  | Test codes  |
+
+
+# Sample web application
+
+When you launch the page, you are asked to select the communication type - use REST API or WebSocket API.
