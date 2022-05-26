@@ -42,6 +42,18 @@ You can change to other ports by setting the following environment variables.
 * PORT_WEB
 * PORT_WEBSOCKET
 
+# API specification
+
+[API specification doc.](./api_specification/doc/generated/api_specification.html)
+
+Generate API specification docs.
+```
+cd api_specification
+npm i
+npx redoc-cli build doc/api_specification.yml -o doc/generated/api_specification.html
+```
+
+
 # Run test codes
 
 ```
@@ -53,14 +65,6 @@ dart test
 Generates the documentations into doc directory.
 ```
 dart doc
-```
-
-# Generate API specification docs
-
-```
-cd api_specification
-npm i
-npx redoc-cli build doc/api_specification.yml -o doc/generated/api_specification.html
 ```
 
 # The architecture
