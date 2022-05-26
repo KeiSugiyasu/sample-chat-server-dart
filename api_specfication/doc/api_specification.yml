@@ -18,6 +18,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ChatQuery'
+            example:
+              from: '2022-05-24T17:09:03.888254'
       responses:
         '200':
           description: Successfully return chat comments.
@@ -45,6 +47,7 @@ components:
       properties:
         from:
           type: string
+
     ChatItemNew:
       type: object
       properties:
@@ -63,6 +66,10 @@ components:
         updated:
           type: string
       required: ["name", "comment", "updated"]
+      example:
+        name: "Anonymous"
+        commne: "Hello world."
+        updated: "2022-05-24T17:09:03.888254"
     ChatItems:
       type: array
       items:
@@ -90,6 +97,10 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ChatItemNew'
+          example:
+            name: "Anonymous"
+            comment: "Hello world."
+
 
   responses:
     Empty:
