@@ -48,14 +48,20 @@ You can change to other ports by setting the following environment variables.
 dart test
 ```
 
-# Generate the documentations.
+# Generate Dart docs
 
 Generates the documentations into doc directory.
 ```
 dart doc
 ```
 
+# Generate API specification docs
 
+```
+cd api_specification
+npm i
+npx redoc-cli build doc/api_specification.yml -o doc/generated/api_specification.html
+```
 
 # The architecture
 
@@ -63,7 +69,7 @@ dart doc
 
 The present architecture is the following.
 
-[[./architecture/architecture.png|architecture.png]]
+![architecture.png](./architecture/architecture.drawio.png)
 
 The web server stores the chat data in memory, so they are lost when the web server process restarts.
 
@@ -73,7 +79,18 @@ The pubsub function fully runs on the web server, so it works only for one web s
 
 The future architecture is the following.
 
-[[./architecture/architecture_future.png|architecture_future.png]]
+![architecture_future.png](./architecture/architecture_future.drawio.png)
 
 The PostgreSQL stores the chat data and the Redis provides the pubsub function, and all the system run as the Docker container.
 
+# Directory structure
+
+| Directory  | Contents |
+| ------------- | ------------- |
+| api_specification  | API documents  |
+| architecture  | Architecture documents  |
+| bin  | Application start script  |
+| doc  | Dart docs  |
+| lib  | Application codes  |
+| public  | Static files for the web application  |
+| test  | Test codes  |

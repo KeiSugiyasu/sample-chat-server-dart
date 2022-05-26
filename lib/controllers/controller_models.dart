@@ -20,6 +20,21 @@ class ResponseBody {
   Map<String, dynamic> toJson() => _$ResponseBodyToJson(this);
 }
 
+/// Error response format.
+class ErrorResponseBody {
+  final String message;
+
+  ErrorResponseBody(this.message);
+
+  get body {
+    return {
+      'error': {
+        'message': message
+      }
+    };
+  }
+}
+
 /// WebSocket message format.
 @JsonSerializable()
 class WebSocketMessage {

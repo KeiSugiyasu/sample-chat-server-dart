@@ -1,0 +1,106 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Chat server api
+  description: Chat server api for training for something new technologies.
+
+servers:
+  - url: http://127.0.0.1:8080
+
+paths:
+  /chat/:
+    post:
+      summary: Returns the chat comments.
+      description: Returns the chat comments. When 'from' parameter is passed, returns items whose timestamps are after that time.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatQuery'
+      responses:
+        '200':
+          description: Successfully return chat comments.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatItems'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Add a comment.
+      description: Add a comment.
+      requestBody:
+        $ref: '#/components/requestBodies/ChatItemNew'
+      responses:
+        '200':
+          $ref: '#/components/responses/Empty'
+        '404':
+          $ref: '#/components/responses/Error'
+
+components:
+  schemas:
+    ChatQuery:
+      type: object
+      properties:
+        from:
+          type: string
+    ChatItemNew:
+      type: object
+      properties:
+        name:
+          type: string
+        comment:
+          type: string
+      required: ["name", "comment"]
+    ChatItem:
+      type: object
+      properties:
+        name:
+          type: string
+        comment:
+          type: string
+        updated:
+          type: string
+      required: ["name", "comment", "updated"]
+    ChatItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChatItem'
+    Empty:
+      description: 'Empty response body.'
+      type: object
+    Error:
+      description: 'Error response body'
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              required: true
+          required: ["message"]
+      required: ["error"]
+
+  requestBodies:
+    ChatItemNew:
+      description: One chat comment without 'updated' property.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChatItemNew'
+
+  responses:
+    Empty:
+      description: The empty json format resonse.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Empty'
+    Error:
+      description: Error response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

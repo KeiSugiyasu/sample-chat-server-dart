@@ -36,21 +36,41 @@ class Controller {
     await services.addChatItem(ChatItem.fromJson(body), isPublish: true);
     return ResponseHelper.standardJsonResponse();
   }
+
+  /// Handle cases routes are not found.
+  Future<Response> notFound(Request request) async {
+    return ResponseHelper.standardErrorJsonResponse(Response.notFound, body: ErrorResponseBody("notFound"));
+  }
 }
 
 /// Helper for creating response.
 class ResponseHelper {
+  static final Map<String, String> commonHeaders = {'content-type': 'application/json',};
+
+  /// Response helper for standard json format response.
   static Response standardJsonResponse(
       {Map? body, Map<String, String> headers = const {}}) {
     return Response.ok(
-      body != null ? JsonEncoder.withIndent('').convert(body) : '{}',
+      body != null ? JsonEncoder().convert(body) : '{}',
       headers: {
-        ...headers,
+        ...commonHeaders,
         ...{
-          'content-type': 'application/json',
           'Cache-Control': 'none',
-        }
+        },
+        ...headers,
       },
     );
+  }
+
+  /// Response helper for standard error json format response.
+  ///
+  /// Examples of [responseFunctions] are [Response.notFound] and [Response.internalServerError].
+  static Response standardErrorJsonResponse(Function(
+      Object? body, {
+        Map<String, Object>? headers,
+        Encoding? encoding,
+        Map<String, Object>? context,
+      }) responseFunction, {required ErrorResponseBody body, Map<String, String> headers = const {}}) {
+    return responseFunction(JsonEncoder().convert(body.body), headers: {...commonHeaders, ...headers});
   }
 }

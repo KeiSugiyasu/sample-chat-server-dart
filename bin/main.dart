@@ -31,7 +31,7 @@ Future<void> setupServer() async {
   final controller = Controller(services: getIt<Services>(), dao: getIt<Dao>());
   final staticHandler =
       shelf_static.createStaticHandler('public', defaultDocument: 'index.html');
-  final router = shelf_router.Router()
+  final router = shelf_router.Router(notFoundHandler: controller.notFound)
     ..post('/api/chat/', controller.listItems)
     ..put('/api/chat/', controller.addItem);
 
