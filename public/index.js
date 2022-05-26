@@ -11,12 +11,10 @@ const locationInfo = (() => {
 })();
 
 /**
- * Chat item list
+ * Chat item list This is something like a "store".
  * @type {*[]}
  */
 const chatItems = [];
-
-let callback = null;
 
 class CallbackUsingAjax {
     /**
@@ -87,6 +85,11 @@ class CallbackUsingAjax {
 
 
 class CallbackUsingWebSocket {
+    constructor(webSocketManager) {
+        this.webSocketManager = webSocketManager;
+    }
+
+
     /**
      * Send comment to the server
      * @param name
@@ -94,7 +97,7 @@ class CallbackUsingWebSocket {
      * @returns {Promise<any>}
      */
     sendComment = async (name, comment) => {
-        webSocketManager.webSocket.send(JSON.stringify({
+        this.webSocketManager.send(JSON.stringify({
             type: "addComment",
             data: {
                 name,
@@ -107,7 +110,7 @@ class CallbackUsingWebSocket {
      * Get comments from the server, merge and update the view.
      * @returns {Promise<void>}
      */
-    _setComments = (data) => {
+    _updateComments = (data) => {
         // TODO improve performance
         chatItems.push(...data.items.filter((comment) => {
             return chatItems.indexOf(comment) == -1
@@ -119,34 +122,36 @@ class CallbackUsingWebSocket {
      * Get comments from the server, merge and update the view.
      * @returns {Promise<void>}
      */
-    updateComments = async (webSocket) => {
+    askComments = async (send) => {
         const latest = chatItems.length > 0 ? chatItems[chatItems.length - 1].updated : null
-        webSocket.send(JSON.stringify(Object.assign({
+        this.webSocketManager.send(JSON.stringify(Object.assign({
             type: "getComments",
         }, latest ? {data:{from:latest}} : {})));
     }
 
-    onMessage = async (event, webSocket) => {
-        event.data.type === "updated" && this.updateComments(webSocket);
-        event.data.type === "comments" && this._setComments(event.data.data);
+    onMessage = async (event) => {
+        event.data.type === "updated" && this.askComments();
+        event.data.type === "comments" && this._updateComments(event.data.data);
     }
 }
 
 
 /**
  * WebSocket manager
- * TODO refactor for switching Ajax and WebSocket mode
  */
 class WebSocketManager {
 
-    constructor(onconnect, onmessage) {
-        this.onconnect = onconnect;
-        this.onmessage = onmessage;
+    constructor() {
         this.isActive = true;
-        this.connect();
     }
 
-    setCallback() {
+    setCallback = (onconnect, onmessage) =>  {
+        this.onconnect = onconnect;
+        this.onmessage = onmessage;
+        return this;
+    }
+
+    _bindCallback() {
         this.webSocket.onopen = (event) => {
             console.log("websocket connection has been established")
             this.onconnect(this.webSocket)
@@ -154,7 +159,7 @@ class WebSocketManager {
 
         this.webSocket.onmessage = (event) => {
             console.log(`websocket message received: ${event.data}`)
-            this.onmessage(Object.assign({}, event, {data:JSON.parse(event.data)}), this.webSocket)
+            this.onmessage(Object.assign({}, event, {data:JSON.parse(event.data)}))
         };
 
         this.webSocket.onerror = (event) => {
@@ -170,11 +175,24 @@ class WebSocketManager {
         }
     }
 
-    connect() {
+    _connect() {
         if(this.isActive) {
             this.webSocket = new WebSocket(`ws://${locationInfo.host}:8081`);
-            this.setCallback();
+            this._bindCallback();
         }
+    }
+
+    connect() {
+        this.isActive = true
+        this._connect()
+    }
+
+    /**
+     * Send data to the server
+     * @param data string
+     */
+    send(data) {
+        this.webSocket.send(data);
     }
 
     stop() {
@@ -183,14 +201,19 @@ class WebSocketManager {
     }
 }
 
-let webSocketManager = null;
+let webSocketManager = new WebSocketManager();
+
+let callback = null;
 
 /**
  * Start the app using webSocket fully.
  */
 const setupFullyWebSocket = () => {
-    callback = new CallbackUsingWebSocket();
-    webSocketManager = new WebSocketManager(callback.updateComments, callback.onMessage);
+    callback = new CallbackUsingWebSocket(webSocketManager);
+    webSocketManager.setCallback(
+        callback.askComments,
+        callback.onMessage
+    ).connect();
 }
 
 /**
@@ -198,10 +221,10 @@ const setupFullyWebSocket = () => {
  */
 const setupPartiallyWebSocket = () => {
     callback = new CallbackUsingAjax();
-    webSocketManager = new WebSocketManager(
+    webSocketManager.setCallback(
         callback.updateComments,
         callback.onMessage
-    );
+    ).connect();
 }
 
 /**

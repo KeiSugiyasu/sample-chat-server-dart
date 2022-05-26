@@ -32,7 +32,7 @@ export MOCK=1
 dart --no-sound-null-safety run bin/main.dart
 ```
 
-For the sample web application, open 'http://127.0.0.1:8080/' with the browser.
+For the sample web application, open 'http://127.0.0.1:8080/' with *Chrome* browser.
 See [this section](#sample-web-application) for the details of it.
 
 The web server uses the following ports by default.
@@ -46,7 +46,7 @@ You can change to other ports by setting the following environment variables.
 
 # Functions
 
-The server application serves two types of API, REST and WebSocket. The two apis serve essentially the same functionalities. 
+The server application serves two types of API, REST and WebSocket. The two apis serve essentially the same functions. 
 
 You can use one of those apis.
 
@@ -118,10 +118,14 @@ The PostgreSQL stores the chat data and the Redis provides the pubsub function, 
 | bin  | Application start script  |
 | doc  | Dart docs  |
 | lib  | Application codes  |
+| misc | Images used in wiki. |
 | public  | Static files for the web application  |
 | test  | Test codes  |
 
 
 # Sample web application
 
+The sample web application is compatible with *Chrome* browther.
+
 When you launch the page, you are asked to select the communication type - use REST API or WebSocket API.
+![select_connection_type.png](./misc/wiki/select_connection_type.png)
