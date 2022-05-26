@@ -1,0 +1,103 @@
+asyncapi: '2.4.0'
+info:
+  title: Chat server WebSocket API
+  version: '1.0.0'
+  description: |
+    This api serves the following functions using WebSocket.
+    * Publish
+      * Send a new comment to the server.
+    * Publish and Subscribe
+      * Get comments from the server.
+    * Subscribe
+      * Notified chat updated events.
+  license:
+    name: MIT
+servers:
+  chat:
+    url: http://127.0.0.1:8081/
+    protocol: http
+channels:
+  /:
+    publish:
+      summary: Send the data to the server.
+      description: 1. Ask ther server to send the chat comments.  2. Send a new comment to the server.
+      operationId: publishChatMessage
+      message:
+        oneOf:
+          - name: getComments
+            payload:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: message type.
+                  example: "getComments"
+                data:
+                  type: object
+                  description: message contents
+                  properties:
+                    from:
+                      type: string
+                      format: date-time
+                      description: if specified, chat items created after 'from' will be received.
+                      example: 2022-05-24T17:09:03.888254
+          - name: addComment
+            payload:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: message type.
+                  example: addComment
+                data:
+                  type: object
+                  description: message contents
+                  properties:
+                    name:
+                      type: string
+                      description: user name
+                      example: Anonymous
+                    comment:
+                      type: string
+                      description: comment
+                      example: Hellow world!
+
+    subscribe:
+      summary: Receive the data from the server.
+      description: 1. Notified the chat update event. 2. Receive chat items requested before.
+      operationId: subscribeChatMessage
+      message:
+        oneOf:
+          - name: updated
+            payload:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: message type.
+                  example: "updated"
+                data:
+                  type: object
+                  description: message contents
+          - name: comments
+            payload:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: message type.
+                  example: comments
+                data:
+                  type: array
+                  description: message contents
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: user name
+                        example: Anonymous
+                      comment:
+                        type: string
+                        description: comment
+                        example: Hellow world!

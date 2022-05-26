@@ -44,13 +44,26 @@ You can change to other ports by setting the following environment variables.
 
 # API specification
 
+## REST API
+
 [API specification doc.](./api_specification/doc/generated/api_specification.html)
 
 Generate API specification docs.
 ```
 cd api_specification
 npm i
-npx redoc-cli build doc/api_specification.yml -o doc/generated/api_specification.html
+npx redoc-cli build ./doc/api_specification.yml -o ./doc/generated/api_specification.html
+```
+
+## WebSocket API
+
+[WebSocket API specification doc.](./api_specification/doc/generated/asyncapi.md)
+
+Generate API specification docs.
+```
+cd api_specification
+npm i
+npx ag ./doc/async_api_specification.yml @asyncapi/markdown-template -o doc/generated/ --force-write
 ```
 
 

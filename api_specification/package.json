@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@asyncapi/generator": "^1.9.5",
     "redoc-cli": "^0.13.14"
   }
 }
