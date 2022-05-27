@@ -70,9 +70,13 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;Response&gt; addItem(Request request) async {
-  &#47;&#47; TODO valiate request parameter
-  final body = JsonDecoder().convert(await request.readAsString());
-  await services.addChatItem(ChatItem.fromJson(body), isPublish: true);
+  late final ChatItem chatItem;
+  try {
+    chatItem = ChatItem.fromJson(JsonDecoder().convert(await request.readAsString()));
+  } catch (e) {
+    return ResponseHelper.badRequestJsonResponse();
+  }
+  await services.addChatItem(chatItem, isPublish: true);
   return ResponseHelper.standardJsonResponse();
 }</code></pre>
 </section>
@@ -114,6 +118,7 @@
     <li><a href="../../controllers_controllers/Controller/addItem.html">addItem</a></li>
     <li><a href="../../controllers_controllers/Controller/listItems.html">listItems</a></li>
     <li class="inherited"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li><a href="../../controllers_controllers/Controller/notFound.html">notFound</a></li>
     <li class="inherited"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../../controllers_controllers/Controller-class.html#operators">Operators</a></li>

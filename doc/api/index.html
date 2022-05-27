@@ -30,7 +30,7 @@
 <header id="title">
   <button id="sidenav-left-toggle" type="button">&nbsp;</button>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
-    <li class="self-crumb">sample_chart_app_server_dart_proj package</li>
+    <li><a href="https://github.com/KeiSugiyasu/sample-chat-server-dart">sample_chart_app_server_dart_proj package</a></li>
   </ol>
   <div class="self-name">sample_chart_app_server_dart_proj</div>
   <form class="search navbar-right" role="search">
@@ -44,20 +44,21 @@
   <div id="dartdoc-main-content" class="main-content">
       
 <section class="desc markdown">
-  <h1 id="simple-chat-server-application-written-with-dart">Simple chat server application written with dart.</h1>
-<p><em>I created this application just to learn dart programming, so its architecture may not be reasonable.</em></p>
+  <h1 id="about">About</h1>
+<p>Simple chat server application written with Dart.</p>
+<p><em>I created this application just to learn Dart programming, so its architecture may not be reasonable.</em></p>
 <p>This is a chat server application.
 The features are explained below.</p>
-<h2 id="get-started">Get started</h2>
-<h3 id="prerequisites">Prerequisites</h3>
+<h1 id="get-started">Get started</h1>
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li>dart sdk (version &gt;= 2.17.1)</li>
+<li>Dart SDK (version &gt;= 2.17.1)</li>
 </ul>
-<h3 id="development">Development</h3>
+<h2 id="development">Development</h2>
 <p>Get dependencies.</p>
 <pre class="language-shell"><code class="language-shell">dart pub get
 </code></pre>
-<p>Run builder to generate json serializer codes when you modified the models or adding one.</p>
+<p>Run builder to generate json serializer codes when you modified the models annotated with json serializer or adding one.</p>
 <pre class="language-dart"><code>dart run build_runner build
 </code></pre>
 <p>For details, check <a href="https://pub.dev/packages/json_serializable">https://pub.dev/packages/json_serializable</a>.</p>
@@ -65,10 +66,11 @@ The features are explained below.</p>
 <pre class="language-dart"><code>export MOCK=1
 dart --no-sound-null-safety run bin/main.dart
 </code></pre>
-<p>Open 'http://127.0.0.1:8080/' with the browser.</p>
-<p>It uses the following ports by default.</p>
+<p>For the sample web application, open 'http://127.0.0.1:8080/' with <em>Chrome</em> browser.
+See <a href="#sample-web-application">this section</a> for the details of it.</p>
+<p>The web server uses the following ports by default.</p>
 <ul>
-<li>8080 (web server)</li>
+<li>8080 (web server serving static files and standard web api)</li>
 <li>8081 (websocket)</li>
 </ul>
 <p>You can change to other ports by setting the following environment variables.</p>
@@ -76,11 +78,47 @@ dart --no-sound-null-safety run bin/main.dart
 <li>PORT_WEB</li>
 <li>PORT_WEBSOCKET</li>
 </ul>
-<h2 id="run-test-codes">Run test codes</h2>
-<p><code>dart test</code></p>
-<h2 id="generate-the-documentations">Generate the documentations.</h2>
-<p>Generates the documentations into doc directory.
-<code>dart doc</code></p>
+<h1 id="functions">Functions</h1>
+<p>The server application serves two types of API, REST and WebSocket. The two apis serve essentially the same functions.</p>
+<p>You can use one of those apis.</p>
+<h1 id="api-specification">API specification</h1>
+<h2 id="rest-api">REST API</h2>
+<p><a href="./api_specification/doc/generated/api_specification.html">API specification doc.</a></p>
+<p>Generate API specification docs.</p>
+<pre class="language-dart"><code>cd api_specification
+npm i
+npx redoc-cli build ./doc/api_specification.yml -o ./doc/generated/api_specification.html
+</code></pre>
+<h2 id="websocket-api">WebSocket API</h2>
+<p><a href="./api_specification/doc/generated/asyncapi.md">WebSocket API specification doc.</a></p>
+<p>Generate API specification docs.</p>
+<pre class="language-dart"><code>cd api_specification
+npm i
+npx ag ./doc/async_api_specification.yml @asyncapi/markdown-template -o doc/generated/ --force-write
+</code></pre>
+<h1 id="run-test-codes">Run test codes</h1>
+<pre class="language-dart"><code>dart test
+</code></pre>
+<h1 id="generate-dart-docs">Generate Dart docs</h1>
+<p>Generates the documentations into doc directory.</p>
+<pre class="language-dart"><code>dart doc
+</code></pre>
+<h1 id="the-architecture">The architecture</h1>
+<h2 id="the-present-architecture">The present architecture</h2>
+<p>The present architecture is the following.</p>
+<p><img src="./architecture/architecture.drawio.png" alt="architecture.png"></p>
+<p>The web server stores the chat data in memory, so they are lost when the web server process restarts.</p>
+<p>The pubsub function fully runs on the web server, so it works only for one web server scenario.</p>
+<h2 id="the-future-architecture">The future architecture</h2>
+<p>The future architecture is the following.</p>
+<p><img src="./architecture/architecture_future.drawio.png" alt="architecture_future.png"></p>
+<p>The PostgreSQL stores the chat data and the Redis provides the pubsub function, and all the system run as the Docker container.</p>
+<h1 id="directory-structure">Directory structure</h1>
+<table><thead><tr><th>Directory</th><th>Contents</th></tr></thead><tbody><tr><td>api_specification</td><td>API documents</td></tr><tr><td>architecture</td><td>Architecture documents</td></tr><tr><td>bin</td><td>Application start script</td></tr><tr><td>doc</td><td>Dart docs</td></tr><tr><td>lib</td><td>Application codes</td></tr><tr><td>misc</td><td>Images used in wiki.</td></tr><tr><td>public</td><td>Static files for the web application</td></tr><tr><td>test</td><td>Test codes</td></tr></tbody></table>
+<h1 id="sample-web-application">Sample web application</h1>
+<p>The sample web application is compatible with <em>Chrome</em> browther.</p>
+<p>When you launch the page, you are asked to select the communication type - use REST API or WebSocket API.
+<img src="./misc/wiki/select_connection_type.png" alt="select_connection_type.png"></p>
 </section>
 
 
@@ -170,7 +208,7 @@ dart --no-sound-null-safety run bin/main.dart
 </header>
 
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
-  <li class="self-crumb">sample_chart_app_server_dart_proj package</li>
+  <li><a href="https://github.com/KeiSugiyasu/sample-chat-server-dart">sample_chart_app_server_dart_proj package</a></li>
 </ol>
 
 

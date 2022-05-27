@@ -70,12 +70,16 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;Response&gt; listItems(Request request) async {
-  final body = JsonDecoder().convert(await request.readAsString());
-  final from = body[&#39;data&#39;]?[&#39;from&#39;] as String?;
-  final chats = await services.getChatItems(from: from?.toDateTime());
+  late final DateTime? from;
+  try {
+    from = (JsonDecoder().convert(await request.readAsString())[&#39;from&#39;] as String?)?.toDateTime();
+  } catch (e) {
+    return ResponseHelper.badRequestJsonResponse();
+  }
+  final chats = await services.getChatItems(from: from);
   return ResponseHelper.standardJsonResponse(
       body: ResponseBody(data: {
-    &#39;from&#39;: from,
+    &#39;from&#39;: from.toString(),
     &#39;items&#39;: chats.map((record) =&gt; record.toJson()).toList()
   }).toJson());
 }</code></pre>
@@ -118,6 +122,7 @@
     <li><a href="../../controllers_controllers/Controller/addItem.html">addItem</a></li>
     <li><a href="../../controllers_controllers/Controller/listItems.html">listItems</a></li>
     <li class="inherited"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li><a href="../../controllers_controllers/Controller/notFound.html">notFound</a></li>
     <li class="inherited"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../../controllers_controllers/Controller-class.html#operators">Operators</a></li>

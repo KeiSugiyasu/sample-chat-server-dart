@@ -65,8 +65,12 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static ChatItem fromJson(Map&lt;String, dynamic&gt; json) =&gt;
-    _$ChatItemFromJson(json);</code></pre>
+  <pre class="language-dart"><code class="language-dart">static ChatItem fromJson(Map&lt;String, dynamic&gt; json) {
+  if(json[&quot;name&quot;] == null || json[&quot;comment&quot;] == null) {
+    throw Exception(&quot;Can&#39;t convert to ChatItem&quot;);
+  }
+  return _$ChatItemFromJson(json);
+}</code></pre>
 </section>
 
 

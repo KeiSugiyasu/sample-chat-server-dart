@@ -155,10 +155,53 @@
     </dl>
   </section>
     
+  <section class="summary offset-anchor" id="static-properties">
+    <h2>Static Properties</h2>
+
+    <dl class="properties">
+        <dt id="commonHeaders" class="property">
+  <span class="name"><a href="../controllers_controllers/ResponseHelper/commonHeaders.html">commonHeaders</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.17.1/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/2.17.1/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/2.17.1/dart-core/String-class.html">String</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  
+  <div class="features">final</div>
+
+</dd>
+
+    </dl>
+  </section>
     
   <section class="summary offset-anchor" id="static-methods">
     <h2>Static Methods</h2>
     <dl class="callables">
+        <dt id="badRequestJsonResponse" class="callable">
+  <span class="name"><a href="../controllers_controllers/ResponseHelper/badRequestJsonResponse.html">badRequestJsonResponse</a></span><span class="signature">(<wbr><span class="parameter" id="badRequestJsonResponse-param-details">{<span class="type-annotation"><a href="https://api.dart.dev/stable/2.17.1/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">details</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://pub.dev/documentation/shelf/1.3.0/shelf/Response-class.html">Response</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Response helper for 400 Bad Request.
+  
+
+</dd>
+
+        <dt id="standardErrorJsonResponse" class="callable">
+  <span class="name"><a href="../controllers_controllers/ResponseHelper/standardErrorJsonResponse.html">standardErrorJsonResponse</a></span><span class="signature">(<wbr><span class="parameter" id="standardErrorJsonResponse-param-responseFunction"><span class="type-annotation">dynamic</span> <span class="parameter-name">responseFunction</span>(<span class="parameter" id="param-body"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">body</span>, </span><span class="parameter" id="param-context">{<span class="type-annotation"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/2.17.1/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Object-class.html">Object</a></span>&gt;</span>?</span> <span class="parameter-name">context</span>, </span><span class="parameter" id="param-encoding"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.17.1/dart-convert/Encoding-class.html">Encoding</a>?</span> <span class="parameter-name">encoding</span>, </span><span class="parameter" id="param-headers"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/2.17.1/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Object-class.html">Object</a></span>&gt;</span>?</span> <span class="parameter-name">headers</span>}</span>), </span><span class="parameter" id="standardErrorJsonResponse-param-body">{<span>required</span> <span class="type-annotation"><a href="../controllers_controller_models/ErrorResponseBody-class.html">ErrorResponseBody</a></span> <span class="parameter-name">body</span>, </span><span class="parameter" id="standardErrorJsonResponse-param-headers"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/2.17.1/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/2.17.1/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">headers</span> = <span class="default-value">const {}</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://pub.dev/documentation/shelf/1.3.0/shelf/Response-class.html">Response</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Response helper for standard error json format response.
+  
+
+</dd>
+
         <dt id="standardJsonResponse" class="callable">
   <span class="name"><a href="../controllers_controllers/ResponseHelper/standardJsonResponse.html">standardJsonResponse</a></span><span class="signature">(<wbr><span class="parameter" id="standardJsonResponse-param-body">{<span class="type-annotation"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Map-class.html">Map</a>?</span> <span class="parameter-name">body</span>, </span><span class="parameter" id="standardJsonResponse-param-headers"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/2.17.1/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/2.17.1/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">headers</span> = <span class="default-value">const {}</span>}</span>)
     <span class="returntype parameter">&#8594; <a href="https://pub.dev/documentation/shelf/1.3.0/shelf/Response-class.html">Response</a></span>
@@ -167,7 +210,7 @@
 
 </dt>
 <dd>
-  
+  Response helper for standard json format response.
   
 
 </dd>
@@ -231,8 +274,12 @@
     <li class="inherited"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 
+        <li class="section-title"><a href="../controllers_controllers/ResponseHelper-class.html#static-properties">Static properties</a></li>
+          <li><a href="../controllers_controllers/ResponseHelper/commonHeaders.html">commonHeaders</a></li>
 
         <li class="section-title"><a href="../controllers_controllers/ResponseHelper-class.html#static-methods">Static methods</a></li>
+          <li><a href="../controllers_controllers/ResponseHelper/badRequestJsonResponse.html">badRequestJsonResponse</a></li>
+          <li><a href="../controllers_controllers/ResponseHelper/standardErrorJsonResponse.html">standardErrorJsonResponse</a></li>
           <li><a href="../controllers_controllers/ResponseHelper/standardJsonResponse.html">standardJsonResponse</a></li>
 
 </ol>

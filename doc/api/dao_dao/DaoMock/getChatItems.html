@@ -75,10 +75,16 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Future&lt;List&lt;ChatItem&gt;&gt; getChatItems(DateTime? from) async {
-  return from == null
-      ? chatItems
-      : chatItems.sublist(
-          chatItems.indexWhere((data) =&gt; data.updated!.compareTo(from!) &gt; 0));
+  if(from != null) {
+    final fromIndex = chatItems.indexWhere((data) =&gt; data.updated!.compareTo(from!) &gt; 0);
+    if(fromIndex &gt;= 0) {
+      return chatItems.sublist(fromIndex);
+    } else {
+      return chatItems;
+    }
+  } else {
+    return chatItems;
+  }
 }</code></pre>
 </section>
 

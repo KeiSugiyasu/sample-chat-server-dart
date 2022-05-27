@@ -61,6 +61,9 @@
 
     </section>
     
+<section class="desc markdown">
+  <p>Response helper for standard json format response.</p>
+</section>
 
 
     
@@ -69,13 +72,13 @@
   <pre class="language-dart"><code class="language-dart">static Response standardJsonResponse(
     {Map? body, Map&lt;String, String&gt; headers = const {}}) {
   return Response.ok(
-    body != null ? JsonEncoder.withIndent(&#39;&#39;).convert(body) : &#39;{}&#39;,
+    body != null ? JsonEncoder().convert(body) : &#39;{}&#39;,
     headers: {
-      ...headers,
+      ...commonHeaders,
       ...{
-        &#39;content-type&#39;: &#39;application&#47;json&#39;,
         &#39;Cache-Control&#39;: &#39;none&#39;,
-      }
+      },
+      ...headers,
     },
   );
 }</code></pre>
@@ -120,8 +123,12 @@
     <li class="inherited"><a href="https://api.dart.dev/stable/2.17.1/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 
+        <li class="section-title"><a href="../../controllers_controllers/ResponseHelper-class.html#static-properties">Static properties</a></li>
+          <li><a href="../../controllers_controllers/ResponseHelper/commonHeaders.html">commonHeaders</a></li>
 
         <li class="section-title"><a href="../../controllers_controllers/ResponseHelper-class.html#static-methods">Static methods</a></li>
+          <li><a href="../../controllers_controllers/ResponseHelper/badRequestJsonResponse.html">badRequestJsonResponse</a></li>
+          <li><a href="../../controllers_controllers/ResponseHelper/standardErrorJsonResponse.html">standardErrorJsonResponse</a></li>
           <li><a href="../../controllers_controllers/ResponseHelper/standardJsonResponse.html">standardJsonResponse</a></li>
 
 </ol>
