@@ -60,5 +60,6 @@ enum WebSocketMessageType {
   addComment,
   // from server
   updated,
-  comments
+  comments,
+  invalid, // notify the client of the invalid request
 }

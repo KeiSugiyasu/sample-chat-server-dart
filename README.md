@@ -20,7 +20,7 @@ Get dependencies.
 dart pub get
 ```
 
-Run builder to generate json serializer codes when you modified the models annoted with json serializer or adding one.
+Run builder to generate json serializer codes when you modified the models annotated with json serializer or adding one.
 ```
 dart run build_runner build
 ```

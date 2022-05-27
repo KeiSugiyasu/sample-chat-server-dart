@@ -20,7 +20,7 @@ class Controller {
     late final DateTime? from;
     try {
       from = (JsonDecoder().convert(await request.readAsString())['from'] as String?)?.toDateTime();
-    } on Exception {
+    } catch (e) {
       return ResponseHelper.badRequestJsonResponse();
     }
     final chats = await services.getChatItems(from: from);
@@ -38,7 +38,7 @@ class Controller {
     late final ChatItem chatItem;
     try {
       chatItem = ChatItem.fromJson(JsonDecoder().convert(await request.readAsString()));
-    } on Exception {
+    } catch (e) {
       return ResponseHelper.badRequestJsonResponse();
     }
     await services.addChatItem(chatItem, isPublish: true);

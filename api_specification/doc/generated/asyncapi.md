@@ -7,6 +7,7 @@ This api serves the following functions using WebSocket.
   * Send a new comment to the server.
 * Publish and Subscribe
   * Get comments from the server.
+  * If the request message is invalid, notified from the server.
 * Subscribe
   * Notified chat updated events.
 
@@ -148,6 +149,29 @@ Accepts **one of** the following messages:
         "updated": "2022-05-24T17:09:03.888Z"
       }
     ]
+  }
+}
+```
+
+
+#### Message `invalid`
+
+##### Payload
+
+| Name | Type | Description | Value | Constraints | Notes |
+|---|---|---|---|---|---|
+| (root) | object | - | - | - | **additional properties are allowed** |
+| type | string | message type. | - | - | **required** |
+| data | object | message contents | - | - | **required**, **additional properties are allowed** |
+| data.message | string | - | - | - | **required** |
+
+> Examples of payload _(generated)_
+
+```json
+{
+  "type": "invalid",
+  "data": {
+    "message": "string"
   }
 }
 ```

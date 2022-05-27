@@ -30,17 +30,6 @@
         <textarea class="form-control" id="comment" name="comment"></textarea>
     </div>
 
-    <!-- Error message dialog -->
-    <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true" id="request-error" style="margin-left: 30px">
-        <div class="toast-header">
-            <strong class="mr-auto">Something's wrong</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-        </div>
-        <div class="toast-body">
-            Your request may not have succeeded.
-        </div>
-    </div>
-
     <button id="send" type="button" class="btn btn-primary">Send</button>
 </form>
 
@@ -62,6 +51,21 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary fully-websocket">Fully WebSocket</button>
                 <button type="button" class="btn btn-primary partially-websocket" data-dismiss="modal">Partially WebSocket</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error dialog -->
+<div aria-live="polite" aria-atomic="true" class="bg-dark position-relative bd-example-toasts">
+    <div class="toast-container position-absolute p-3" id="toastPlacement">
+        <div class="toast position-fixed top-0 start-50 translate-middle-x bg-danger" role="alert" aria-live="assertive" aria-atomic="true" id="request-error" style="margin-left: 30px">
+            <div class="toast-header bg-danger text-white">
+                <strong class="mr-auto">Something's wrong</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body bg-primary">
+                Your request may not have succeeded.
             </div>
         </div>
     </div>

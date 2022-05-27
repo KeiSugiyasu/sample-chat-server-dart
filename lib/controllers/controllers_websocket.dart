@@ -30,17 +30,33 @@ class WebSocketController {
   _listen() {
     _channel.stream.listen((message) {
       logger.v("$message received");
-      // TODO validate message format
-      final webSocketMessage =
-          WebSocketMessage.fromJson(JsonDecoder().convert(message));
+      late final WebSocketMessage webSocketMessage;
+      try {
+        webSocketMessage = WebSocketMessage.fromJson(JsonDecoder().convert(message));
+      } catch (e) { // format error
+        _notifyInvalidMessage(message);
+        return;
+      }
       if (webSocketMessage.type == WebSocketMessageType.getComments) {
         // request latest comments
         _sendChatItems(webSocketMessage.data);
       } else if (webSocketMessage.type == WebSocketMessageType.addComment) {
         // request add comment
         _addChatItem(webSocketMessage.data);
+      } else { // message type is invalid
+        _notifyInvalidMessage(message);
       }
     });
+  }
+
+  /// Notify the client of the invalid message.
+  ///
+  /// [message] helps client to notice the details.
+  _notifyInvalidMessage(String message) async {
+    logger.i("invalid message: $message");
+    _channel.sink.add(WebSocketMessage(
+        type: WebSocketMessageType.invalid,
+        data: {'message': message}).toTransferFormat());
   }
 
   /// Send chat items related to client request ([data]).
@@ -48,11 +64,17 @@ class WebSocketController {
   /// If [data].from is passed, the comments after the specific point are sent, other wise all comments are sent.
   _sendChatItems(Map<String, dynamic>? data) async {
     logger.i("$data");
-    final from = data?["from"] as String?;
-    final chatItems = await _services.getChatItems(from: from?.toDateTime());
+    late final DateTime? from;
+    try {
+      from = (data?["from"] as String?)?.toDateTime();
+    } catch (e) {
+      _notifyInvalidMessage(jsonEncode(data));
+      return;
+    }
+    final chatItems = await _services.getChatItems(from: from);
     _channel.sink.add(WebSocketMessage(
         type: WebSocketMessageType.comments,
-        data: {'from': from, 'items': chatItems}).toTransferFormat());
+        data: {'from': from.toString(), 'items': chatItems}).toTransferFormat());
   }
 
   /// Add new chat item received from the client.
@@ -60,8 +82,13 @@ class WebSocketController {
   /// Updates the databaese and publish to pubsub function.
   _addChatItem(Map<String, dynamic>? data) async {
     logger.i("$data");
-    // TODO validate message
-    final chatItem = ChatItem(name: data!['name']!, comment: data!['comment']!);
+    late final ChatItem chatItem;
+    try {
+      chatItem = ChatItem.fromJson(data!);
+    } catch (e) {
+      _notifyInvalidMessage(jsonEncode(data));
+      return;
+    }
     await _services.addChatItem(chatItem, isPublish: true);
     // TODO response
   }

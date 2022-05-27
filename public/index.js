@@ -124,9 +124,14 @@ class CallbackUsingWebSocket {
         }, latest ? {data:{from:latest}} : {})));
     }
 
+    _invalidRequest(data) {
+        showError("Request was rejected from the server because it's invalid.");
+    }
+
     onMessage = async (event) => {
         event.data.type === "updated" && this.askComments();
         event.data.type === "comments" && this._updateComments(event.data.data);
+        event.data.type === "invalid" && this._invalidRequest(event.data);
     }
 }
 
@@ -298,6 +303,6 @@ const updateCommentList = () => {
  * @param e
  */
 const showError = (e) => {
-    console.error(e);
+    console.log(e);
     new bootstrap.Toast(document.getElementById("request-error")).show();
 }

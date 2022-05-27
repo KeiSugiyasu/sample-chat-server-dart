@@ -32,4 +32,5 @@ const _$WebSocketMessageTypeEnumMap = {
   WebSocketMessageType.addComment: 'addComment',
   WebSocketMessageType.updated: 'updated',
   WebSocketMessageType.comments: 'comments',
+  WebSocketMessageType.invalid: 'invalid',
 };

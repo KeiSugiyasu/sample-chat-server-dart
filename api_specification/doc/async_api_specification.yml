@@ -8,6 +8,7 @@ info:
       * Send a new comment to the server.
     * Publish and Subscribe
       * Get comments from the server.
+      * If the request message is invalid, notified from the server.
     * Subscribe
       * Notified chat updated events.
   license:
@@ -86,7 +87,7 @@ channels:
                 type:
                   type: string
                   description: message type.
-                  example: "updated"
+                  example: updated
                 data:
                   type: object
                   description: message contents
@@ -136,4 +137,23 @@ channels:
                             format: date-time
                             desctiption: created time.
                             example: 2022-05-24T17:09:03.888254
-
+          - name: invalid
+            payload:
+              type: object
+              required:
+                - type
+                - data
+              properties:
+                type:
+                  type: string
+                  description: message type.
+                  example: invalid
+                data:
+                  type: object
+                  required:
+                    - message
+                  description: message contents
+                  properties:
+                    message:
+                      type: string
+                      desctiption: Hint that helps client to fix the problem.
